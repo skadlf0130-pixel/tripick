@@ -1,0 +1,73 @@
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active: local
+  application:
+    name: gateway-service
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration
+  cloud:
+    gateway:
+      routes:
+        - id: auth-service
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/auth/**
+        - id: festival-service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/festivals/**
+        - id: recommendation-service
+          uri: http://localhost:8083
+          predicates:
+            - Path=/api/recommendations/**
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOriginPatterns:
+              - "http://localhost:*"
+              - "https://tripick.kr"
+            allowedMethods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+            allowedHeaders: ["*"]
+            allowCredentials: true
+
+jwt:
+  secret: local-secret-key-must-be-at-least-256-bits-long-for-hs256-algorithm
+  access-expiration: 3600000
+  refresh-expiration: 604800000
+
+logging:
+  level:
+    com.tripick: DEBUG
+    org.springframework.cloud.gateway: DEBUG
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  cloud:
+    gateway:
+      routes:
+        - id: auth-service
+          uri: http://${AUTH_SERVICE_HOST:auth-service}:8081
+          predicates:
+            - Path=/api/auth/**
+        - id: festival-service
+          uri: http://${FESTIVAL_SERVICE_HOST:festival-service}:8082
+          predicates:
+            - Path=/api/festivals/**
+        - id: recommendation-service
+          uri: http://${RECOMMENDATION_SERVICE_HOST:recommendation-service}:8083
+          predicates:
+            - Path=/api/recommendations/**
+
+jwt:
+  secret: ${JWT_SECRET}
+  access-expiration: 3600000
+  refresh-expiration: 604800000
