@@ -27,6 +27,16 @@ Thumbs.db
 .env.prod
 application-secret.yml
 application-local.yml
+application-prod.yml
+
+# 개인정보/DB 덤프 (절대 커밋 금지!)
+*.sql
+*.dump
+*.csv
+/data/
+/dump/
+/seed/
+uploads/
 
 # 로그
 logs/
@@ -35,3 +45,6 @@ logs/
 # H2 DB
 *.mv.db
 *.trace.db
+
+# 로컬 전용 작업 메모 (커밋 금지)
+LOCAL_NOTES.md
