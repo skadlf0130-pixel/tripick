@@ -51,18 +51,18 @@ public class FestivalController {
     @GetMapping("/{id}")
     @Operation(summary = "축제 상세 조회")
     public ResponseEntity<ApiResponse<?>> getFestival(@PathVariable Long id) {
-        var data = Map.of(
-            "festivalId", id,
-            "name", "서울 봄꽃 축제",
-            "startDate", "2026-04-10",
-            "endDate", "2026-04-20",
-            "region", "서울",
-            "category", "자연",
-            "description", "한강변에서 펼쳐지는 봄꽃 축제입니다.",
-            "imageUrl", "https://example.com/image.jpg",
-            "officialUrl", "https://example.com",
-            "latitude", 37.5,
-            "longitude", 126.9
+        var data = Map.ofEntries(
+            Map.entry("festivalId", id),
+            Map.entry("name", "서울 봄꽃 축제"),
+            Map.entry("startDate", "2026-04-10"),
+            Map.entry("endDate", "2026-04-20"),
+            Map.entry("region", "서울"),
+            Map.entry("category", "자연"),
+            Map.entry("description", "한강변에서 펼쳐지는 봄꽃 축제입니다."),
+            Map.entry("imageUrl", "https://example.com/image.jpg"),
+            Map.entry("officialUrl", "https://example.com"),
+            Map.entry("latitude", 37.5),
+            Map.entry("longitude", 126.9)
         );
         return ResponseEntity.ok(ApiResponse.ok(data));
     }
