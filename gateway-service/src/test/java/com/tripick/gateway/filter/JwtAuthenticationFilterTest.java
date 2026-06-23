@@ -37,7 +37,6 @@ class JwtAuthenticationFilterTest {
     @BeforeEach
     void setUp() {
         filter = new JwtAuthenticationFilter(jwtTokenProvider, objectMapper);
-        when(chain.filter(any())).thenReturn(Mono.empty());
     }
 
     @Test
@@ -46,6 +45,8 @@ class JwtAuthenticationFilterTest {
         MockServerHttpRequest request = MockServerHttpRequest
                 .post("/api/auth/login").build();
         ServerWebExchange exchange = MockServerWebExchange.from(request);
+
+        when(chain.filter(any())).thenReturn(Mono.empty());
 
         filter.filter(exchange, chain).block();
 
@@ -60,6 +61,8 @@ class JwtAuthenticationFilterTest {
                 .post("/api/auth/register").build();
         ServerWebExchange exchange = MockServerWebExchange.from(request);
 
+        when(chain.filter(any())).thenReturn(Mono.empty());
+
         filter.filter(exchange, chain).block();
 
         verify(jwtTokenProvider, never()).validateToken(any());
@@ -72,6 +75,8 @@ class JwtAuthenticationFilterTest {
         MockServerHttpRequest request = MockServerHttpRequest
                 .get("/api/festivals").build();
         ServerWebExchange exchange = MockServerWebExchange.from(request);
+
+        when(chain.filter(any())).thenReturn(Mono.empty());
 
         filter.filter(exchange, chain).block();
 
@@ -154,6 +159,7 @@ class JwtAuthenticationFilterTest {
         when(jwtTokenProvider.validateToken(VALID_TOKEN)).thenReturn(true);
         when(jwtTokenProvider.getUserId(VALID_TOKEN)).thenReturn(USER_ID);
         when(jwtTokenProvider.getRole(VALID_TOKEN)).thenReturn("USER");
+        when(chain.filter(any())).thenReturn(Mono.empty());
 
         filter.filter(exchange, chain).block();
 
