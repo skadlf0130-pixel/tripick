@@ -27,6 +27,8 @@ tripick/
 ├── auth-service/           # 회원가입·로그인·토큰 발급/재발급   (8081)
 ├── festival-service/       # 축제/여행지/북마크/리뷰           (8082)
 ├── recommendation-service/ # AI 추천 생성, festival-service 연동 (8083)
+├── community-service/      # 여행 후기(UGC)·댓글·좋아요·신고   (8084)
+├── notification-service/   # 알림 센터, 알림 수신 설정         (8085)
 └── common/                 # 공통 응답/예외, JWT 유틸, 베이스 엔티티
 ```
 
@@ -38,7 +40,7 @@ tripick/
 |---|---|
 | `main` | 최종 배포 브랜치 |
 | `develop` | 개발 통합 브랜치 (서비스별 브랜치를 머지) |
-| `auth-service`, `festival-service`, `gateway-service`, `recommendation-service`, `common` | 서비스별 작업 브랜치 |
+| `auth-service`, `festival-service`, `gateway-service`, `recommendation-service`, `community-service`, `notification-service`, `common` | 서비스별 작업 브랜치 |
 
 ## 로컬 실행 방법
 
@@ -57,6 +59,8 @@ JWT_SECRET=your-jwt-secret-key-must-be-at-least-256-bits
 ./gradlew :auth-service:bootRun --args='--spring.profiles.active=local'
 ./gradlew :festival-service:bootRun --args='--spring.profiles.active=local'
 ./gradlew :recommendation-service:bootRun --args='--spring.profiles.active=local'
+./gradlew :community-service:bootRun --args='--spring.profiles.active=local'
+./gradlew :notification-service:bootRun --args='--spring.profiles.active=local'
 ```
 
 ### 3. API 문서 확인
@@ -69,6 +73,7 @@ JWT_SECRET=your-jwt-secret-key-must-be-at-least-256-bits
 - [x] festival-service 엔티티/컨트롤러 스켈레톤
 - [x] recommendation-service 엔티티/컨트롤러 스켈레톤 + festival-service Feign 연동
 - [x] gateway-service JWT 인증 필터
+- [x] community-service, notification-service 모듈 스캐폴딩 (엔티티/API 구현 예정)
 - [ ] Tour API 연동
 - [ ] Claude API 연동
 - [ ] 카카오맵 API 연동
