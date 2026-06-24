@@ -11,6 +11,7 @@ public enum ErrorCode {
     // 400
     INVALID_PARAMETER("INVALID_PARAMETER", "요청 파라미터가 올바르지 않습니다.", HttpStatus.BAD_REQUEST),
     INVALID_PASSWORD("INVALID_PASSWORD", "현재 비밀번호가 일치하지 않습니다.", HttpStatus.BAD_REQUEST),
+    TOO_MANY_PHOTOS("TOO_MANY_PHOTOS", "사진은 최대 5장까지 첨부할 수 있습니다.", HttpStatus.BAD_REQUEST),
 
     // 401
     UNAUTHORIZED("UNAUTHORIZED", "인증이 필요합니다.", HttpStatus.UNAUTHORIZED),
@@ -30,11 +31,16 @@ public enum ErrorCode {
     RECOMMENDATION_NOT_FOUND("RECOMMENDATION_NOT_FOUND", "추천 결과를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
     BOOKMARK_NOT_FOUND("BOOKMARK_NOT_FOUND", "찜 정보를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
     REVIEW_NOT_FOUND("REVIEW_NOT_FOUND", "후기를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+    COMMENT_NOT_FOUND("COMMENT_NOT_FOUND", "댓글을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+    REPORT_NOT_FOUND("REPORT_NOT_FOUND", "신고 내역을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+    NOTIFICATION_NOT_FOUND("NOTIFICATION_NOT_FOUND", "알림을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
 
     // 409
     DUPLICATE_EMAIL("DUPLICATE_EMAIL", "이미 사용 중인 이메일입니다.", HttpStatus.CONFLICT),
     ALREADY_BOOKMARKED("ALREADY_BOOKMARKED", "이미 찜한 축제입니다.", HttpStatus.CONFLICT),
     ALREADY_REVIEWED("ALREADY_REVIEWED", "이미 후기를 작성한 축제입니다.", HttpStatus.CONFLICT),
+    ALREADY_LIKED("ALREADY_LIKED", "이미 좋아요를 누른 게시물입니다.", HttpStatus.CONFLICT),
+    ALREADY_REPORTED("ALREADY_REPORTED", "이미 신고한 대상입니다.", HttpStatus.CONFLICT),
 
     // 429
     TOO_MANY_REQUESTS("TOO_MANY_REQUESTS", "로그인 시도 횟수를 초과했습니다. 잠시 후 다시 시도해주세요.", HttpStatus.TOO_MANY_REQUESTS),
