@@ -4,6 +4,7 @@ import com.tripick.common.dto.response.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -19,6 +20,16 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(e.getErrorCode().getStatus())
                 .body(ApiResponse.fail(e.getErrorCode().getCode(), e.getMessage()));
+    }
+
+    // @PreAuthorize 권한 거부 시 DispatcherServlet 단계에서 먼저 처리되어 Spring Security의
+    // ExceptionTranslationFilter(필터 체인)까지 도달하지 않으므로 여기서 직접 403으로 변환
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ApiResponse<Void>> handleAccessDeniedException(AccessDeniedException e) {
+        log.warn("[AccessDeniedException] message={}", e.getMessage());
+        return ResponseEntity
+                .status(ErrorCode.FORBIDDEN.getStatus())
+                .body(ApiResponse.fail(ErrorCode.FORBIDDEN.getCode(), ErrorCode.FORBIDDEN.getMessage()));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
