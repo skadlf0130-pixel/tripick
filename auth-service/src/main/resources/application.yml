@@ -46,6 +46,17 @@ spring:
     hibernate:
       ddl-auto: create-drop
     show-sql: true
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:your-mail@example.com}
+    password: ${MAIL_PASSWORD:your-mail-password}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
   kafka:
     bootstrap-servers: localhost:9092
     producer:
@@ -74,6 +85,17 @@ spring:
     hibernate:
       ddl-auto: validate
     show-sql: false
+  mail:
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
   kafka:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
     producer:
