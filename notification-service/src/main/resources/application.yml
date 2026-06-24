@@ -65,6 +65,8 @@ spring:
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
         spring.json.trusted.packages: "com.tripick.*"
+        spring.json.type.mapping: "commentCreated:com.tripick.notification.event.CommentCreatedEvent,postLiked:com.tripick.notification.event.PostLikedEvent"
+        spring.json.use.type.headers: true
 
 ---
 spring:
@@ -102,3 +104,5 @@ spring:
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
         spring.json.trusted.packages: "com.tripick.*"
+        spring.json.type.mapping: "commentCreated:com.tripick.notification.event.CommentCreatedEvent,postLiked:com.tripick.notification.event.PostLikedEvent"
+        spring.json.use.type.headers: true
