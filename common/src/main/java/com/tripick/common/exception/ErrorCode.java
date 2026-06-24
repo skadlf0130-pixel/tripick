@@ -30,6 +30,7 @@ public enum ErrorCode {
     RECOMMENDATION_NOT_FOUND("RECOMMENDATION_NOT_FOUND", "추천 결과를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
     BOOKMARK_NOT_FOUND("BOOKMARK_NOT_FOUND", "찜 정보를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
     REVIEW_NOT_FOUND("REVIEW_NOT_FOUND", "후기를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+    NOTIFICATION_NOT_FOUND("NOTIFICATION_NOT_FOUND", "알림을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
 
     // 409
     DUPLICATE_EMAIL("DUPLICATE_EMAIL", "이미 사용 중인 이메일입니다.", HttpStatus.CONFLICT),
