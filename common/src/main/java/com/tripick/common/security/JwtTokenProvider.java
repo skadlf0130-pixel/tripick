@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * [common] JWT 토큰 생성·검증 유틸리티
@@ -40,8 +41,10 @@ public class JwtTokenProvider {
     }
 
     // 리프레시 토큰은 role 불포함 - 재발급 요청 시 DB에서 role 재조회
+    // jti(랜덤 UUID)를 넣어 같은 초(iat)에 재발급해도 토큰 문자열이 항상 달라지게 함 (DB unique 제약·로테이션 무효화에 필요)
     public String createRefreshToken(Long userId) {
         return Jwts.builder()
+                .id(UUID.randomUUID().toString())
                 .subject(String.valueOf(userId))
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + refreshExpiration))
@@ -79,12 +82,15 @@ public class JwtTokenProvider {
     }
 
     // validateToken이 false일 때 만료 vs 위조 구분용 (에러 메시지 분기)
+    // 만료가 아닌 다른 모든 오류(서명 불일치, 형식 손상 등)는 false(= 위조/무효)로 처리
     public boolean isExpired(String token) {
         try {
             parseClaims(token);
             return false;
         } catch (ExpiredJwtException e) {
             return true;
+        } catch (JwtException | IllegalArgumentException e) {
+            return false;
         }
     }
 }

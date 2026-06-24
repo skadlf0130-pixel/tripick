@@ -4,6 +4,11 @@ spring:
   autoconfigure:
     exclude:
       - org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
+  mail:
+    host: smtp.example.com
+    port: 587
+    username: test@example.com
+    password: test
 
 jwt:
   secret: test-secret-key-must-be-at-least-256-bits-long-for-hs256-algorithm
