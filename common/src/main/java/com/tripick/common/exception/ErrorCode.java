@@ -28,6 +28,7 @@ public enum ErrorCode {
     // 404
     USER_NOT_FOUND("USER_NOT_FOUND", "사용자를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
     FESTIVAL_NOT_FOUND("FESTIVAL_NOT_FOUND", "축제를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+    TRAVEL_SPOT_NOT_FOUND("TRAVEL_SPOT_NOT_FOUND", "여행지를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
     RECOMMENDATION_NOT_FOUND("RECOMMENDATION_NOT_FOUND", "추천 결과를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
     BOOKMARK_NOT_FOUND("BOOKMARK_NOT_FOUND", "찜 정보를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
     REVIEW_NOT_FOUND("REVIEW_NOT_FOUND", "후기를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),

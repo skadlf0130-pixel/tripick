@@ -43,6 +43,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(PUBLIC_URLS).permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/festivals", "/api/festivals/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/travel-spots", "/api/travel-spots/**").permitAll()
                 .anyRequest().authenticated()
             )
             .headers(headers ->
