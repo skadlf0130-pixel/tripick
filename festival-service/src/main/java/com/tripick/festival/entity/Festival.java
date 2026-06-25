@@ -81,6 +81,20 @@ public class Festival extends BaseTimeEntity {
         this.cachedAt = LocalDateTime.now();
     }
 
+    // 외부 API 재동기화 시 최신 데이터로 갱신
+    public void updateFromSync(String name, LocalDate startDate, LocalDate endDate, String region,
+                                String description, String officialUrl, BigDecimal latitude, BigDecimal longitude) {
+        this.name = name;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.region = region;
+        this.description = description;
+        this.officialUrl = officialUrl;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        updateCacheTime();
+    }
+
     // 24시간 초과 시 Tour API 재호출 필요 여부 판단
     public boolean isExpired() {
         if (this.cachedAt == null) return true;

@@ -4,6 +4,8 @@ import com.tripick.common.security.HeaderAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -14,19 +16,18 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 /**
  * [festival-service] Spring Security 설정
  * 축제 조회(GET)는 비로그인 허용 - gateway에서도 동일하게 public 처리
- * 찜·후기 작성 등 변경 요청은 인증 필요 (X-User-Id 헤더 필수)
+ * 찜·후기 작성, 동기화(POST /api/festivals/sync) 등 변경 요청은 인증 필요 (X-User-Id 헤더 필수)
+ * 관리자 동기화 트리거는 @PreAuthorize("hasRole('ADMIN')")로 제어 (EnableMethodSecurity 필요)
  */
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
     private final HeaderAuthenticationFilter headerAuthenticationFilter;
 
-    // GET 축제 조회는 gateway에서 이미 public 처리되지만, 서비스 자체도 permitAll 유지
     private static final String[] PUBLIC_URLS = {
-        "/api/festivals",
-        "/api/festivals/**",
         "/swagger-ui/**",
         "/api-docs/**",
         "/h2-console/**"
@@ -41,6 +42,7 @@ public class SecurityConfig {
             )
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(PUBLIC_URLS).permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/festivals", "/api/festivals/**").permitAll()
                 .anyRequest().authenticated()
             )
             .headers(headers ->

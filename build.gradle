@@ -37,11 +37,18 @@ subprojects {
     dependencies {
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok'
+        implementation 'me.paulschwarz:spring-dotenv:4.0.0'
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
         testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     }
 
     test {
         useJUnitPlatform()
+    }
+
+    // .env 파일은 모노레포 루트(rootProject)에 있으므로, gradle bootRun 실행 시
+    // 작업 디렉토리를 루트로 맞춰서 spring-dotenv가 루트의 .env를 읽도록 한다.
+    tasks.withType(org.springframework.boot.gradle.tasks.run.BootRun).configureEach {
+        workingDir = rootProject.projectDir
     }
 }

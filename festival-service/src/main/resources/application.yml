@@ -60,9 +60,13 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
 
-tour-api:
-  base-url: https://apis.data.go.kr/B551011/KorService1
-  service-key: ${TOUR_API_KEY:your-tour-api-key}
+culture-festival-api:
+  base-url: https://api.odcloud.kr/api/15013104/v1/uddi:c5d35cc0-313d-44ed-8512-46e76f0e3296
+  service-key: ${CULTURE_FESTIVAL_API_KEY:your-culture-festival-api-key}
+
+weather-api:
+  base-url: https://apis.data.go.kr/1360000/MidFcstInfoService
+  service-key: ${WEATHER_API_KEY:your-weather-api-key}
 
 kakao-map:
   app-key: ${KAKAO_APP_KEY:your-kakao-app-key}
@@ -98,9 +102,13 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
 
-tour-api:
-  base-url: https://apis.data.go.kr/B551011/KorService1
-  service-key: ${TOUR_API_KEY}
+culture-festival-api:
+  base-url: https://api.odcloud.kr/api/15013104/v1/uddi:c5d35cc0-313d-44ed-8512-46e76f0e3296
+  service-key: ${CULTURE_FESTIVAL_API_KEY}
+
+weather-api:
+  base-url: https://apis.data.go.kr/1360000/MidFcstInfoService
+  service-key: ${WEATHER_API_KEY}
 
 kakao-map:
   app-key: ${KAKAO_APP_KEY}
