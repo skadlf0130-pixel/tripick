@@ -6,3 +6,11 @@ spring:
       - org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
       - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
       - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
+
+culture-festival-api:
+  base-url: https://api.odcloud.kr/api/test
+  service-key: test-culture-festival-api-key
+
+weather-api:
+  base-url: https://apis.data.go.kr/1360000/MidFcstInfoService
+  service-key: test-weather-api-key

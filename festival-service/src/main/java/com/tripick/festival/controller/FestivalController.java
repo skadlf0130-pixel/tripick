@@ -1,14 +1,20 @@
 package com.tripick.festival.controller;
 
 import com.tripick.common.dto.response.ApiResponse;
+import com.tripick.festival.dto.response.FestivalDetailResponse;
+import com.tripick.festival.dto.response.FestivalResponse;
+import com.tripick.festival.entity.Festival;
+import com.tripick.festival.service.FestivalService;
+import com.tripick.festival.service.FestivalSyncService;
+import com.tripick.festival.service.WeatherService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/festivals")
@@ -16,69 +22,37 @@ import java.util.Map;
 @Tag(name = "Festival", description = "축제 API")
 public class FestivalController {
 
-    // TODO: FestivalService, ReviewService 주입
+    private final FestivalService festivalService;
+    private final FestivalSyncService festivalSyncService;
+    private final WeatherService weatherService;
 
     @GetMapping
-    @Operation(summary = "축제 목록 조회", description = "월별/지역별 축제 목록을 조회합니다.")
-    public ResponseEntity<ApiResponse<?>> getFestivals(
+    @Operation(summary = "축제 목록 조회", description = "월별/지역별/카테고리별 축제 목록을 조회합니다.")
+    public ResponseEntity<ApiResponse<Page<FestivalResponse>>> getFestivals(
             @RequestParam(required = false) String region,
             @RequestParam(required = false) Integer month,
             @RequestParam(required = false) String category,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
-        var data = Map.of(
-            "content", List.of(
-                Map.of(
-                    "festivalId", 1L,
-                    "name", "서울 봄꽃 축제",
-                    "startDate", "2026-04-10",
-                    "endDate", "2026-04-20",
-                    "region", "서울",
-                    "category", "자연",
-                    "imageUrl", "https://example.com/image.jpg"
-                )
-            ),
-            "pageNumber", page,
-            "pageSize", size,
-            "totalPages", 1,
-            "totalElements", 1,
-            "isLast", true
-        );
-        return ResponseEntity.ok(ApiResponse.ok(data));
+        Page<FestivalResponse> result = festivalService.getFestivals(region, month, category, PageRequest.of(page, size))
+                .map(FestivalResponse::new);
+        return ResponseEntity.ok(ApiResponse.ok(result));
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "축제 상세 조회")
-    public ResponseEntity<ApiResponse<?>> getFestival(@PathVariable Long id) {
-        var data = Map.ofEntries(
-            Map.entry("festivalId", id),
-            Map.entry("name", "서울 봄꽃 축제"),
-            Map.entry("startDate", "2026-04-10"),
-            Map.entry("endDate", "2026-04-20"),
-            Map.entry("region", "서울"),
-            Map.entry("category", "자연"),
-            Map.entry("description", "한강변에서 펼쳐지는 봄꽃 축제입니다."),
-            Map.entry("imageUrl", "https://example.com/image.jpg"),
-            Map.entry("officialUrl", "https://example.com"),
-            Map.entry("latitude", 37.5),
-            Map.entry("longitude", 126.9)
-        );
-        return ResponseEntity.ok(ApiResponse.ok(data));
+    @Operation(summary = "축제 상세 조회", description = "축제 기간이 기상청 중기예보 제공 범위(오늘+3일~+10일)와 겹치면 날씨 예보를 함께 반환합니다.")
+    public ResponseEntity<ApiResponse<FestivalDetailResponse>> getFestival(@PathVariable Long id) {
+        Festival festival = festivalService.getFestival(id);
+        FestivalDetailResponse response = new FestivalDetailResponse(festival, weatherService.getForecast(festival));
+        return ResponseEntity.ok(ApiResponse.ok(response));
     }
 
-    @GetMapping("/{id}/reviews")
-    @Operation(summary = "축제 후기 목록 조회")
-    public ResponseEntity<ApiResponse<?>> getReviews(
-            @PathVariable Long id,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
-    ) {
-        return ResponseEntity.ok(ApiResponse.ok(Map.of(
-            "content", List.of(),
-            "averageRating", 0.0,
-            "totalPages", 0,
-            "totalElements", 0
-        )));
+    @PostMapping("/sync")
+    @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "[관리자] 전국문화축제표준데이터 수동 동기화")
+    public ResponseEntity<ApiResponse<Void>> syncFestivals() {
+        int synced = festivalSyncService.syncAll();
+        return ResponseEntity.ok(ApiResponse.ok(synced + "건 동기화되었습니다."));
     }
 }

@@ -45,6 +45,11 @@ public class Review extends BaseTimeEntity {
         this.isDeleted = true;
     }
 
+    public void update(Integer rating, String content) {
+        this.rating = rating;
+        this.content = content;
+    }
+
     // userId를 직접 비교 (User 엔티티 참조 없이 작성자 확인)
     public boolean isWriter(Long userId) {
         return this.userId.equals(userId);
