@@ -1,6 +1,7 @@
 package com.tripick.recommendation.dto.request;
 
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -8,6 +9,7 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class RecommendationRequest {
 
     private String region;  // null이면 전국

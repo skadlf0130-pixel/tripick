@@ -10,3 +10,8 @@ spring:
 feign:
   festival-service:
     url: http://localhost:8082
+
+ai-api:
+  base-url: https://api.anthropic.com
+  api-key: test-api-key
+  model: claude-opus-4-8

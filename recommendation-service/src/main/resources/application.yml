@@ -61,9 +61,9 @@ feign:
     url: http://localhost:8082
 
 ai-api:
-  base-url: https://api.anthropic.com/v1
+  base-url: https://api.anthropic.com
   api-key: ${CLAUDE_API_KEY:your-claude-api-key}
-  model: claude-sonnet-4-20250514
+  model: claude-opus-4-8
 
 ---
 spring:
@@ -97,6 +97,6 @@ feign:
     url: http://${FESTIVAL_SERVICE_HOST:festival-service}:8082
 
 ai-api:
-  base-url: https://api.anthropic.com/v1
+  base-url: https://api.anthropic.com
   api-key: ${CLAUDE_API_KEY}
-  model: claude-sonnet-4-20250514
+  model: claude-opus-4-8
