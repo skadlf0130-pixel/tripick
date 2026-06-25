@@ -39,6 +39,10 @@ public class Recommendation extends BaseTimeEntity {
     @Column(length = 20)
     private String transportation;
 
+    // region+interests+transportation 조합 캐시 키 (동일 조건 재요청 시 재사용)
+    @Column(name = "condition_key", length = 255)
+    private String conditionKey;
+
     @Column(name = "result_json", columnDefinition = "JSON")
     private String resultJson;     // Claude API 응답 전체 캐싱
 
