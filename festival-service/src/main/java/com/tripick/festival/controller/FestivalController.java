@@ -16,9 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Map;
-
 @RestController
 @RequestMapping("/api/festivals")
 @RequiredArgsConstructor
@@ -49,21 +46,6 @@ public class FestivalController {
         Festival festival = festivalService.getFestival(id);
         FestivalDetailResponse response = new FestivalDetailResponse(festival, weatherService.getForecast(festival));
         return ResponseEntity.ok(ApiResponse.ok(response));
-    }
-
-    @GetMapping("/{id}/reviews")
-    @Operation(summary = "축제 후기 목록 조회")
-    public ResponseEntity<ApiResponse<?>> getReviews(
-            @PathVariable Long id,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
-    ) {
-        return ResponseEntity.ok(ApiResponse.ok(Map.of(
-            "content", List.of(),
-            "averageRating", 0.0,
-            "totalPages", 0,
-            "totalElements", 0
-        )));
     }
 
     @PostMapping("/sync")

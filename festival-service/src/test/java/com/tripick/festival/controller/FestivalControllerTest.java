@@ -91,28 +91,6 @@ class FestivalControllerTest {
                 .andExpect(jsonPath("$.error.code").value("FESTIVAL_NOT_FOUND"));
     }
 
-    // ── 후기 목록 조회 (공개) ──
-
-    @Test
-    @DisplayName("축제 후기 목록 조회 성공 - 200 반환")
-    void getReviews_returns200() throws Exception {
-        mockMvc.perform(get("/api/festivals/{id}/reviews", festivalId))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data.content").isArray())
-                .andExpect(jsonPath("$.data.averageRating").exists());
-    }
-
-    @Test
-    @DisplayName("후기 목록 페이징 파라미터 적용 - 200 반환")
-    void getReviews_withPaging_returns200() throws Exception {
-        mockMvc.perform(get("/api/festivals/{id}/reviews", festivalId)
-                        .param("page", "1")
-                        .param("size", "5"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.success").value(true));
-    }
-
     // ── 동기화 (관리자 전용) ──
 
     @Test
