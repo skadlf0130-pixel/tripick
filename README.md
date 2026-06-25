@@ -14,7 +14,7 @@
 | 캐싱 | Redis |
 | 인증 | JWT (Access 1h / Refresh 7d) |
 | Gateway | Spring Cloud Gateway |
-| 외부 API | 한국관광공사 Tour API, Claude API, 카카오맵 |
+| 외부 API | 공공데이터포털 전국문화축제표준데이터, 기상청 중기예보, Claude API, 카카오맵 |
 | 문서화 | Swagger (springdoc) |
 | 배포 | AWS EC2 + RDS |
 | CI/CD | GitHub Actions |
@@ -47,7 +47,8 @@ tripick/
 ### 1. 환경변수 설정
 ```bash
 # .env 파일 생성 (절대 커밋 금지!)
-TOUR_API_KEY=your-tour-api-key
+CULTURE_FESTIVAL_API_KEY=your-culture-festival-api-key
+WEATHER_API_KEY=your-weather-api-key
 CLAUDE_API_KEY=your-claude-api-key
 KAKAO_APP_KEY=your-kakao-app-key
 JWT_SECRET=your-jwt-secret-key-must-be-at-least-256-bits
@@ -69,13 +70,14 @@ JWT_SECRET=your-jwt-secret-key-must-be-at-least-256-bits
 ## 개발 현황
 - [x] 멀티모듈 Gradle 구조 세팅
 - [x] common 모듈 (공통 응답/예외, JWT 유틸)
-- [x] auth-service 회원가입/로그인 스켈레톤
-- [x] festival-service 엔티티/컨트롤러 스켈레톤
-- [x] recommendation-service 엔티티/컨트롤러 스켈레톤 + festival-service Feign 연동
+- [x] auth-service 회원가입/로그인/토큰 재발급/비밀번호 재설정 실구현
+- [x] festival-service 축제/여행지/찜/후기 실구현
+- [x] recommendation-service Claude API 연동 + festival-service Feign 연동으로 AI 추천 실구현
 - [x] gateway-service JWT 인증 필터
-- [x] community-service, notification-service 모듈 스캐폴딩 (엔티티/API 구현 예정)
-- [ ] Tour API 연동
-- [ ] Claude API 연동
+- [x] community-service 후기 게시물/댓글/좋아요/신고 실구현
+- [x] notification-service 알림센터/수신 설정 실구현
+- [x] 전국문화축제표준데이터 + 기상청 API 연동
+- [x] Claude API 연동
 - [ ] 카카오맵 API 연동
 - [ ] Redis 캐싱 적용
 - [ ] AWS 배포
